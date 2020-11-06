@@ -1,27 +1,19 @@
+Update (11-5-20)
+ 
+ * Cleaned up data files - removed full team files
+
 # Scraper result
 
 ## Notes & Questions
 
-1. Percentages
-	* add a % at the end or leave it a number?
-
-2. JSON files are updated with 
-	1. full box scores separated by team column label
-	2. separate team JSON files
-
-3. All "Basic Stats" are available and readily able to be gathered. 
-	* includes team assists, rebounds, pts in paint, 2nd chance pts, bench pts, pts off tov
 
 # Data file notes:
-* players have 3 files
-	1. `players_full_box_score.json` has both teams in one file
-	2. the other two files starting with `players_` are only spurs or opponent files
 
-* team box scores follow the same convention
+* None
 
 # For Vlad
-* Look over data files and see if the formatting is okay. 
-* Let me know if you want me to rename anything.
+
+* None
 	
 # Follow-up notes on box scores - **VLAD, you can ignore the following**
 
@@ -29,6 +21,14 @@
 
 1. Parse rotations data: player time in, player time out (figure out format with Vlad first)
 2. Shot chart data only needs to be in regions
+3. Add a % to the end of percentages
+4. JSON format = 'records'
+5. fast break points, second chance points, etc
+6. Add total points to team box scores
+
+# Rotations chart:
+
+1. Data: 30 second bins
 
 # Shot charts:
 
