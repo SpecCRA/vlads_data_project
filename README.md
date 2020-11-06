@@ -24,7 +24,6 @@ Update (11-5-20)
 3. Add a % to the end of percentages
 4. JSON format = 'records'
 5. fast break points, second chance points, etc
-6. Add total points to team box scores
 
 # Rotations chart:
 
