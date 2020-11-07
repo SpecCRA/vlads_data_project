@@ -24,10 +24,12 @@ Update (11-5-20)
 3. Add a % to the end of percentages
 4. JSON format = 'records'
 5. fast break points, second chance points, etc
+6. check if you can get points by quarter
 
 # Rotations chart:
 
-1. Data: 30 second bins
+1. 30 second bins
+2. solid bars for the game
 
 # Shot charts:
 
