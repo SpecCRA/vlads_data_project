@@ -1,11 +1,11 @@
-Update (11-6-20)
+Update (11-8-20)
  
  * Cleaned up data files - removed full team files
 
 # Scraper result
 
 ## Notes & Questions
-
+* 11-8-20: All box score values fixed
 
 # Data file notes:
 
