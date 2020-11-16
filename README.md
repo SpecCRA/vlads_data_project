@@ -1,11 +1,15 @@
-Update (11-8-20)
+Update (11-16-20)
  
- * Cleaned up data files - removed full team files
+ * Wrote functions to extract each quarter's starters
+ * Next up: one hot encode 30 second bins
+ 	* Address overlapping conflicts
+ 	* prelim method: give it to the player who played more minutes
+ 	* he is going to be the one that is most interesting to a general audience
 
 # Scraper result
 
 ## Notes & Questions
-* 11-8-20: All box score values fixed
+* 11-8-20: All box score values to correct decimal points fixed
 
 # Data file notes:
 
