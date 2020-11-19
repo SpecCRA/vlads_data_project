@@ -1,7 +1,8 @@
-Update (11-16-20)
- 
- * Wrote functions to extract each quarter's starters
- * Next up: one hot encode 30 second bins
+Update (11-18-20)
+
+* Grabbed each team's starters
+* cleaned up columns to game time, period, player in, player out 
+* Next up: one hot encode 30 second bins
  	* Address overlapping conflicts
  	* prelim method: give it to the player who played more minutes
  	* he is going to be the one that is most interesting to a general audience
