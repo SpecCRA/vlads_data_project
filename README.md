@@ -1,4 +1,4 @@
-Update (11-18-20)
+# Update (11-18-20)
 
 * Grabbed each team's starters
 * cleaned up columns to game time, period, player in, player out 
@@ -6,6 +6,14 @@ Update (11-18-20)
  	* Address overlapping conflicts
  	* prelim method: give it to the player who played more minutes
  	* he is going to be the one that is most interesting to a general audience
+    
+# Update (11-18-20)
+
+* Planned out shot chart information 
+* Shot chart to do:
+    * Get a list of players in a specific game
+    * Loop through the list to get each player's shots
+    * Parse by the two bin filters (court side, zones)
 
 # Scraper result
 
