@@ -1,3 +1,10 @@
+# Update (11-24-20)
+
+* Fixed shots formatting
+    * rearranged separate FGM and FGA columns into FGM-FGA
+    * reformatted shot percentages to XX%
+    * added difference from league average to each team shots file
+
 # Update (11-23-20)
 
 * Finished script to get required shot chart data
@@ -33,7 +40,7 @@ The scraper will work game by game and will hopefully only save the most recent 
 
 # For Vlad
 
-* Download the shots data and make sure 
+* Download the shots data and make sure everything reads properly
 	
 # Follow-up notes on box scores - **VLAD, you can ignore the following**
 
