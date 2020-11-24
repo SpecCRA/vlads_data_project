@@ -1,51 +1,49 @@
-# Update (11-18-20)
+# Update (11-23-20)
 
-* Grabbed each team's starters
-* cleaned up columns to game time, period, player in, player out 
-* Next up: one hot encode 30 second bins
- 	* Address overlapping conflicts
- 	* prelim method: give it to the player who played more minutes
- 	* he is going to be the one that is most interesting to a general audience
-    
-# Update (11-18-20)
+* Finished script to get required shot chart data
+    * team shots per zone
+    * shots made and attempted per zone
+    * shot percentage per zone formatted in XX.X%
 
-* Planned out shot chart information 
-* Shot chart to do:
-    * Get a list of players in a specific game
-    * Loop through the list to get each player's shots
-    * Parse by the two bin filters (court side, zones)
+# Scraper outputs
+The scraper will work game by game and will hopefully only save the most recent game.
 
-# Scraper result
+1. Spurs' traditional player box score outputs
+2. Opponent traditional player box score outputs
+3. Spurs' traditional team box score outputs
+4. Opponent traditional team box score outputs
+5. Misc team game statistics
+6. Spurs' shot data by zone
+7. Opponent shot data by zone
+8. League average shot data up the most current point of the season
 
-## Notes & Questions
-* 11-8-20: All box score values to correct decimal points fixed
+## In progress:
+
+* Rotation chart data
+* Rotation chart bar graphs
 
 # Data file notes:
 
-* `misc_box_stats.json` includes asts, rebs, pts in paint, fb pts, 2nd chance pts, pts off tov, and bench points
+* The test game is the final Spurs bubble game against the Jazz: https://www.nba.com/game/uta-vs-sas-0021901274/box-score#box-score
+* `misc_box_stats.json` includes asts, rebs, pts in paint, fast break pts, 2nd chance pts, pts off turnovers, and bench points
 * `players_spurs_box_score.json` and `players_opp_box_scores.json` are the player box scores
 * `team_box_scores_x.json` are the two team box scores
-* `subs_data.json` is the scraped substitution data for now 
+* `shots_spurs.json` and `shots_opp.json` include shots data for each team by zones; includes FG made, FG attempted, and FG percentage
+* `shots_league_avg.json` is the league average shot data for the 2019-20 season
 
 # For Vlad
 
-* Can't find quarter by quarter point totals
+* Download the shots data and make sure 
 	
 # Follow-up notes on box scores - **VLAD, you can ignore the following**
 
 # To-do
 
-1. Parse rotations data: player time in, player time out (figure out format with Vlad first)
-2. Shot chart data only needs to be in regions
+1. Parse rotations data into bins for visualization
 
 # Rotations chart:
 
 1. 30 second bins
 2. solid bars for the game
-
-# Shot charts:
-
-1. Game by game shot charts
-2. Team shot charts
 
 # env name - nba-scraper
