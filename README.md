@@ -1,11 +1,13 @@
+# Update (12-10-20)
+* Began building Python automation script
+* Forgot to create 0-0 rows for parts that do not show up with league averages
+
 # Update (11-24-20)
 
 * Fixed shots formatting
     * rearranged separate FGM and FGA columns into FGM-FGA
     * reformatted shot percentages to XX%
     * added difference from league average to each team shots file
-
-# Update (11-23-20)
 
 * Finished script to get required shot chart data
     * team shots per zone
@@ -28,6 +30,7 @@ The scraper will work game by game and will hopefully only save the most recent 
 
 * Rotation chart data
 * Rotation chart bar graphs
+* Shot charts zones have to match team shot chart zones
 
 # Data file notes:
 
