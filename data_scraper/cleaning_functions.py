@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import pandas as pd
+import numpy as np
+from functools import reduce
 
 class df_cleaner():
 
@@ -149,51 +151,127 @@ class df_cleaner():
 
         return out_df
 
-    def clean_shots_df(shots_df):
+    def group_team_shots_df(shots_df):
         """
         This function aggregates shot dataframes to team levels and cleans it using
         function rename_cols().
         
-        The output dateframe shows the shot zone area, shot zone range, number
-        of shots made and attempted in each respective area. The final created
-        column is the field goal percentage formatted to XX.X%.
+        The output dateframe aggregates player shots into team shots by shot zones.
         
         input: Concatenated player dataframe
-        output: cleaned, aggregated dataframe
+        output: aggregated dataframe
         """
         df = shots_df.copy()
         
         groupby_cols = ['GAME_ID', 'TEAM_NAME', 'SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE']
         out_cols = ['GAME_ID', 'TEAM_NAME', 'SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE',
                 'SHOT_MADE_FLAG', 'SHOT_ATTEMPTED_FLAG']
-        # aggregate shots
+        # aggregate and sum shots
         agg_df = df.groupby(groupby_cols)[out_cols].sum().reset_index()
-        # add a fg pct column and format it
-        # format by leaving one decimal place and adding '%' to the end
-        agg_df['rounded_fg_pct'] = round((agg_df.SHOT_MADE_FLAG / agg_df.SHOT_ATTEMPTED_FLAG)* 100).astype(int)
-        agg_df['formatted_fg_pct'] = agg_df.rounded_fg_pct.apply(lambda x: str(x) + '%')
-        # combine shooting fields
-        df_cleaner.combine_shooting_fields(agg_df, 'SHOTS_MADE_FLAG', 'SHOTS_ATTEMPTED_FLAG', 'fg')
 
-        # format column names
-        agg_df = df_cleaner.rename_cols(agg_df)
         return agg_df
 
-    def rename_cols(df):
+    def clean_league_avg_df(league_avg_df):
         """
-        This function takes an aggregated team shots dataframe and formats
-        the columns to lower case. It also renames two flagged columns for
-        easier readability.
+        Inputs the league average shots data and outputs a dataframe aggregated
+        by the shot zone area and shot zone range.
+
+        Shot zone area examples: left side, right side, center
+        shot zone range examples: 24+ ft, 8-16 ft
         """
-        data = df.copy()
-        shots_cols = {
-            'SHOT_MADE_FLAG' : 'shots_made',
-            'SHOT_ATTEMPTED_FLAG' : 'shots_attempted'
-        }
-        data.rename(columns = shots_cols, inplace = True)
-        # lower column names
-        cols = dict()
-        for col in list(data.columns):
-            cols[col] = col.lower()
-        data.rename(columns = cols, inplace = True)
-        return data
+        groupby_cols = ['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE']
+        out_cols = ['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE', 'FGA', 'FGM']
+
+        df = league_avg_df.groupby(groupby_cols)[out_cols].sum().reset_index()
+
+        df['AVG_FG_PCT'] = round( (df['FGM'] / df['FGA']), 3)
+
+        df['AVG_FG_PCT'] = df['AVG_FG_PCT'].apply(lambda x: round(x*100))
+        df['FORMATTED_FG_PCT'] = df['AVG_FG_PCT'].apply(lambda x: str(x) + '%')
+
+        return df
+
+    def calc_fg_pct_diff(clean_league_avg_df, shots_df):
+        """
+        Takes in two dataframes: 
+        1. cleaned league average dataframe grouped by shot zone area & range
+        2. cleaned up team shots dataframe with same grouping
+
+        Outputs a dataframe that calculates field goal difference:
+        team fg percentage by shot zone area & range versus the league average
+        """
+
+        # create league avg df with zones
+        df = pd.DataFrame()
+        avg_df_cols = ['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE', 'AVG_FG_PCT']
+        shots_df_cols = ['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE', 'ROUNDED_FG_PCT']
+
+        filtered_league_avg_df = clean_league_avg_df[avg_df_cols].copy()
+        filtered_shots_df = shots_df[shots_df_cols].copy()
+        df = filtered_league_avg_df.merge(filtered_shots_df, on = avg_df_cols[:2])
+
+        # subtract cols
+        df['FG_DIFF'] = df['ROUNDED_FG_PCT'] - df['AVG_FG_PCT']
+
+        # return new shots df
+        return df
+
+
+    def clean_team_shots_df(shots_df, clean_league_avg_df):
+        """
+        Cleans team shot dataframes to desired formatting
+
+        1. Create all shot zone areas and ranges based on what NBA saves
+        2. Make sure there is a 0-0 for areas that are unaccounted for in a game
+        3. Reformat some columns from a float to a an integer to remove XX.X decimal
+        4. Create FG PCT column
+        5. Format field goal percentages
+        6. Format field goals to FGM-FGA
+        7. Append the FG PCT difference from league average
+        8. Filter columns
+
+        Outputs cleaned and formatted data
+        """
+
+        df = shots_df.copy()
+
+        # account for all shooting zones
+        shot_zones = ['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE']
+        zones = clean_league_avg_df[shot_zones].copy()
+        df = zones.merge(shots_df, on = shot_zones, how='left')
+
+        # fill in 0 for NaN values generated upon merge
+        df.fillna(0, inplace=True)
+
+        # calculate fg pct column
+        df['ROUNDED_FG_PCT'] = round((df.SHOT_MADE_FLAG / df.SHOT_ATTEMPTED_FLAG)* 100)
+        # address 0/0 columns
+        df['ROUNDED_FG_PCT'].replace([np.inf, -np.inf, np.nan], 0, inplace=True)
+        df['ROUNDED_FG_PCT'].astype(int)
+
+        # change shot dtypes to int instead of float
+        shots_cols = list(df.iloc[:, 4:7])
+        for col in shots_cols:
+            df[col] = df[col].astype(int)
+
+        # format fg_pct
+        df['FORMATTED_FG_PCT'] = df['ROUNDED_FG_PCT'].apply(lambda x: str(x) + '%')
+
+        # format shooting fields
+        df_cleaner.combine_shooting_fields(df, 'SHOT_MADE_FLAG', 'SHOT_ATTEMPTED_FLAG', 'FG')
+
+        # create fg pct diff column
+        diff_df = df_cleaner.calc_fg_pct_diff(clean_league_avg_df, df)
+        diff_df = diff_df[['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE', 'FG_DIFF']]
+        df = df.merge(diff_df, on=['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE'])
+
+        # format FG diff
+        df['FORMATTED_FG_DIFF'] = df['FG_DIFF'].apply(lambda x: str(x) + '%')
+
+        # filter new df by shot zones and ranges with rounded fg pct
+        keep_cols = ['GAME_ID', 'TEAM_NAME', 'SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE', \
+                        'FG', 'FORMATTED_FG_PCT', 'FORMATTED_FG_DIFF']
+
+        out_df = df[keep_cols]
+
+        return out_df

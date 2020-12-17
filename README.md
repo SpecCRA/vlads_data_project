@@ -1,3 +1,6 @@
+# Update (12-16-20)
+* Automation script done for everything except rotations data
+
 # Update (12-10-20)
 * Began building Python automation script
 * Forgot to create 0-0 rows for parts that do not show up with league averages
@@ -15,7 +18,7 @@
     * shot percentage per zone formatted in XX.X%
 
 # Scraper outputs
-The scraper will work game by game and will hopefully only save the most recent game.
+The scraper will work game by game and will only save the **most recent game**.
 
 1. Spurs' traditional player box score outputs
 2. Opponent traditional player box score outputs
@@ -26,11 +29,14 @@ The scraper will work game by game and will hopefully only save the most recent 
 7. Opponent shot data by zone
 8. League average shot data up the most current point of the season
 
+# How to use scraper
+* Download the entire repository
+* Run `data_scraper/scraper.py` to gather, format, and output `JSON` files
+
 ## In progress:
 
 * Rotation chart data
 * Rotation chart bar graphs
-* Shot charts zones have to match team shot chart zones
 
 # Data file notes:
 
@@ -39,13 +45,11 @@ The scraper will work game by game and will hopefully only save the most recent 
 * `players_spurs_box_score.json` and `players_opp_box_scores.json` are the player box scores
 * `team_box_scores_x.json` are the two team box scores
 * `shots_spurs.json` and `shots_opp.json` include shots data for each team by zones; includes FG made, FG attempted, and FG percentage
+	* FG_DIFF is the difference between the shot area percentage and league average from that zone
+	* FG_DIFF is calculated by TEAM SHOT ZONE FG PCT - LEAGUE AVG SHOT ZONE FG PCT
 * `shots_league_avg.json` is the league average shot data for the 2019-20 season
-
-# For Vlad
-
-* Download the shots data and make sure everything reads properly
 	
-# Follow-up notes on box scores - **VLAD, you can ignore the following**
+# Follow-up notes - **VLAD, you can ignore the following**
 
 # To-do
 

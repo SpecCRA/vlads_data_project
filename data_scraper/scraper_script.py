@@ -60,7 +60,7 @@ print('successfully cleaned team box scores')
 ###############################
 ###### PLAYER BOX SCORES ######
 ###############################
-# grab player box scores
+#grab player box scores
 player_box_scores_df = get_box_scores.get_player_box_score(game_id)
 print('player box scores retrieved')
 
@@ -90,16 +90,29 @@ print('successfully cleaned misc team box score')
 ###### TEAM SHOTS DATA #######
 ##############################
 # grab spurs team shots data
-spurs_shots_df = get_shots_data.gather_team_df(game_id, spurs_roster, spurs_id)
+spurs_shots_df = get_shots_data.gather_team_df(game_id, spurs_roster, spurs_id, curr_season)
+print('Spurs shot chart retrieved')
 
 # grab opp team shots data
-opp_shots_df = get_shots_data.gather_team_df(game_id, opp_roster, opp_id)
+opp_shots_df = get_shots_data.gather_team_df(game_id, opp_roster, opp_id, curr_season)
+print('opponent shot chart retrieved')
 
 # get league averages data
+league_avg_df = get_shots_data.get_league_avg(spurs_roster, curr_season, spurs_id)
+print('league average shooting data retrieved')
+
+# aggregate league averages data
+league_avg_df = df_cleaner.clean_league_avg_df(league_avg_df)
+
+# aggregate team shots df by shot zones
+spurs_shots_df = df_cleaner.group_team_shots_df(spurs_shots_df)
+opp_shots_df = df_cleaner.group_team_shots_df(opp_shots_df)
+print('aggregated team shot charts')
 
 # format & clean player shots data
-
-# calculate fg perc diff from players perc by area
+clean_spurs_shots_df = df_cleaner.clean_team_shots_df(spurs_shots_df, league_avg_df)
+clean_opp_shots_df = df_cleaner.clean_team_shots_df(opp_shots_df, league_avg_df)
+print('successfully cleaned team shot dataframes')
 
 
 ###################################
@@ -110,21 +123,43 @@ opp_shots_df = get_shots_data.gather_team_df(game_id, opp_roster, opp_id)
 #############################
 ##### OUTPUTS ###############
 #############################
+file_path = '../data/'
+
+if os.path.isdir(file_path) == False:
+	os.mkdir(file_path)
+else:
+	print('outputting files')
 
 # spurs team box score
+spurs_team_box_scores.to_json(path_or_buf = file_path + 'team_box_scores_spurs.json',
+								orient='records')
 
 # opp team box score
+opp_team_box_scores.to_json(path_or_buf = file_path + 'team_box_scores_opp.json',
+							orient='records')
 
 # misc team box score
+game_misc_df.to_json(path_or_buf = file_path + 'misc_box_stats.json', 
+						orient = 'records')
 
 # spurs player box score
+spurs_players_box_scores.to_json(path_or_buf = file_path + 'players_spurs_box_score.json',
+									orient='records')
 
 # opp player box score
+opp_player_box_scores.to_json(path_or_buf = file_path + 'players_opp_box_score.json',
+								orient='records')
 
 # spurs team shooting data
+clean_spurs_shots_df.to_json(path_or_buf = file_path + 'shots_spurs.json',
+								orient='records')
 
 # opp team shooting data
+clean_opp_shots_df.to_json(path_or_buf = file_path + 'shots_opp.json',
+							orient='records')
 
 # league averages shooting data
+league_avg_df.to_json(path_or_buf = file_path + 'shots_league_avg.json',
+						orient='records')
 
 # rotations data

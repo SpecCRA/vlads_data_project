@@ -19,7 +19,7 @@ class get_box_scores():
         return df
 
     def get_misc_stats(gameid):
-    	df = BoxScoreMiscV2(game_id=spurs_games[0]).data_sets[1].get_data_frame()
+    	df = BoxScoreMiscV2(game_id=gameid).data_sets[1].get_data_frame()
 
     	time.sleep(3)
     	return df

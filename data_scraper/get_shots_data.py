@@ -4,6 +4,7 @@ import pandas as pd
 from nba_api.stats.endpoints import ShotChartLineupDetail
 from nba_api.stats.endpoints import ShotChartDetail
 from nba_api.stats.static.players import find_players_by_full_name
+import time
 
 class get_shots_data():
     def __init__(self):
@@ -28,7 +29,6 @@ class get_shots_data():
         Output: Entire DataFrame with shots data
         """
         # First, set a sleep timer
-        time.sleep(8)
         
         shots_df = ShotChartDetail(
             player_id = playerid,
@@ -37,10 +37,12 @@ class get_shots_data():
             game_id_nullable = gameid,
             context_measure_simple = 'FGA'
         )
+
+        time.sleep(8)
         
         return shots_df.data_sets[0].get_data_frame()
 
-    def gather_team_df(gameid, player_list, teamid):
+    def gather_team_df(gameid, player_list, teamid, season):
         """
         This function grabs an entire team's shot data separated by each shot.
         It loops through a team's roster and grabs individual team's shot data.
@@ -53,7 +55,8 @@ class get_shots_data():
         """
         data = pd.DataFrame() # start with an empty dataframe
         for player in player_list:
-            df = get_shots_data.get_shot_chart(player_ids[player], teamid, gameid)
+            playerid = get_shots_data.get_playerid(player)
+            df = get_shots_data.get_shot_chart(playerid, teamid, gameid, season)
             data = pd.concat([data, df])
             print('Finished gathering data for {}'.format(player))
         return data
@@ -61,6 +64,9 @@ class get_shots_data():
     def get_league_avg(roster, season, teamid):
         """
         This function outputs the league average shooting data up to a point in the season.
+
+        The inputs are simply to query the API to get the second dataframe that comes with
+        the endpoints.
         """
         name = get_shots_data.get_playerid(roster[0])
 
