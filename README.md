@@ -1,3 +1,8 @@
+# Update (12-18-20)
+* Fixed team box scores to include 2-pointers field
+* Removed back court shots from team shots data
+* Included function to sort shot zones in team shots data
+
 # Update (12-16-20)
 * Automation script done for everything except rotations data
 
