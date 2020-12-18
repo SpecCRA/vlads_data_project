@@ -38,15 +38,17 @@ class game_info():
         Returns most recent game ID and home status
         """
         home = None
+        game_date = None
         gamefinder = LeagueGameFinder(team_id_nullable=team_id, \
                             season_nullable=season)
         spurs_games_df = gamefinder.get_data_frames()[0]
         game_id = spurs_games_df.iloc[0]['GAME_ID']
+        game_date = spurs_games_df.iloc[0]['GAME_DATE']
         if '@' in spurs_games_df.iloc[0]['MATCHUP']:
             home = False
         else:
             home = True
-        return game_id, home
+        return game_id, home, game_date
 
     def get_playerid(name):
         """

@@ -100,7 +100,7 @@ class df_cleaner():
         data['FT_PCT'] = data['FT_PCT'].apply(df_cleaner.format_pct)
 
         # filter out columns
-        team_keep_cols = ['TEAM_ABBREVIATION', 'home', 'PTS', 'FG', 'FG_PCT', '3P',\
+        team_keep_cols = ['TEAM_ABBREVIATION', 'home', 'PTS', 'FG', 'FG_PCT','2P', '3P',\
                             'FG3_PCT', 'FT', 'FT_PCT', 'AST', 'REB', 'DREB', 'OREB',\
                             'BLK', 'STL', 'TO', 'PF']
 
@@ -189,6 +189,9 @@ class df_cleaner():
         df['AVG_FG_PCT'] = df['AVG_FG_PCT'].apply(lambda x: round(x*100))
         df['FORMATTED_FG_PCT'] = df['AVG_FG_PCT'].apply(lambda x: str(x) + '%')
 
+        # sort shot zone columns
+        df.sort_values(by=['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE'], inplace=True)
+
         return df
 
     def calc_fg_pct_diff(clean_league_avg_df, shots_df):
@@ -267,6 +270,13 @@ class df_cleaner():
 
         # format FG diff
         df['FORMATTED_FG_DIFF'] = df['FG_DIFF'].apply(lambda x: str(x) + '%')
+
+        # sort shot zone columns
+        df.sort_values(by=['SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE'], inplace=True)
+
+        # remove backcourt shots
+        df = df[df['SHOT_ZONE_AREA'] != 'Back Court(BC)']
+
 
         # filter new df by shot zones and ranges with rounded fg pct
         keep_cols = ['GAME_ID', 'TEAM_NAME', 'SHOT_ZONE_AREA', 'SHOT_ZONE_RANGE', \

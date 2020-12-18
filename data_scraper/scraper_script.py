@@ -7,6 +7,7 @@ from box_scores import get_box_scores
 import time
 import os
 import pandas as pd
+import pprint
 
 ################
 ### SETUP ######
@@ -14,6 +15,7 @@ import pandas as pd
 curr_season = '2019-20' # change to current season
 print('Season: {}'.format(curr_season))
 home = None # set true if team is at home
+pp = pprint.PrettyPrinter(indent=4)
 
 # get spurs team info
 spurs_id = game_info.get_spurs_id()
@@ -21,9 +23,10 @@ time.sleep(3)
 print('Spurs ID: {}'.format(spurs_id))
 
 # get most recent game and home status
-game_id, home = game_info.get_most_recent_game(spurs_id, curr_season)
+game_id, home, game_date = game_info.get_most_recent_game(spurs_id, curr_season)
 time.sleep(3)
 print('Game ID: {}'.format(game_id))
+print('Game Date: {}'.format(game_date))
 print('Home Game: {}'.format(home))
 
 # get opp team info
@@ -33,8 +36,10 @@ print('Opp: {}'.format(opp_abbrev))
 
 # get team rosters
 spurs_roster, opp_roster = game_info.get_rosters(game_id)
-print(spurs_roster)
-print(opp_roster)
+print('Spurs roster:')
+pp.pprint(spurs_roster)
+print('Opponent roster:')
+pp.pprint(opp_roster)
 
 #################################
 ####### TEAM BOX SCORES #########
