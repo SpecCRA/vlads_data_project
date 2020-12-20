@@ -1,3 +1,7 @@
+# Update (12-20-20)
+* Reformatted percentage rounding in team box scores to integer values instead of a single decimal float
+* Data files are not up to date with last minor change, but everything else should be the same
+
 # Update (12-18-20)
 * Fixed team box scores to include 2-pointers field
 * Removed back court shots from team shots data
@@ -25,18 +29,23 @@
 # Scraper outputs
 The scraper will work game by game and will only save the **most recent game**.
 
-1. Spurs' traditional player box score outputs
-2. Opponent traditional player box score outputs
-3. Spurs' traditional team box score outputs
-4. Opponent traditional team box score outputs
-5. Misc team game statistics
-6. Spurs' shot data by zone
-7. Opponent shot data by zone
-8. League average shot data up the most current point of the season
+1. Spurs' traditional player box score outputs - `players_spurs_box_score.json`
+2. Opponent traditional player box score outputs - `players_opp_box_scores.json`
+3. Spurs' traditional team box score outputs - `team_box_scores_spurs.json`
+4. Opponent traditional team box score outputs - `team_box_scores_opp.json`
+5. Misc team game statistics - `misc_box_stats.json`
+6. Spurs' shot data by zone - `shots_spurs.json`
+7. Opponent shot data by zone - `shots_opp.json`
+8. League average shot data up the most current point of the season - `shots_league_avg.json`
 
 # How to use scraper
 * Download the entire repository
 * Run `data_scraper/scraper.py` to gather, format, and output `JSON` files
+
+# Warnings
+* If a previous file exists, this script will overwrite the last file.
+* The folder creation may not work on Windows because of the path naming notation.
+	* If this is a problem, create a `data/` folder outside the scraper scripts folder.
 
 ## In progress:
 

@@ -38,7 +38,7 @@ class df_cleaner():
         Takes a X.XX formatted percentage and formats it to XX%.
         It multiplies the number by 100 and rounds to the unit.
         """
-        pct = round(pct*100, 2)
+        pct = round(pct*100)
         out_format = str(pct) + '%'
         return out_format
 
@@ -85,7 +85,7 @@ class df_cleaner():
         # create 2PM, 2PA, 2PCT columns
         data['2PM'] = data['FGM'] - data['FG3M']
         data['2PA'] = data['FGA'] - data['FG3A']
-        data['2P_PCT'] = round((data['2PM'] / data['2PA']), 3)
+        data['2P_PCT'] = round((data['2PM'] / data['2PA']))
 
         # combine shooting fields
         df_cleaner.combine_shooting_fields(data, 'FGM', 'FGA', 'FG')

@@ -62,6 +62,9 @@ game_box_score_df = game_box_score_df.join(temp_df.set_index('TEAM_ABBREVIATION'
 spurs_team_box_scores, opp_team_box_scores = df_cleaner.clean_team_box_score(game_box_score_df)
 print('successfully cleaned team box scores')
 
+print(spurs_team_box_scores)
+print(opp_team_box_scores)
+
 ###############################
 ###### PLAYER BOX SCORES ######
 ###############################
@@ -130,8 +133,10 @@ print('successfully cleaned team shot dataframes')
 #############################
 file_path = '../data/'
 
+# check if a data/ folder exists
 if os.path.isdir(file_path) == False:
 	os.mkdir(file_path)
+	print('creating data/ folder and outputting files')
 else:
 	print('outputting files')
 
