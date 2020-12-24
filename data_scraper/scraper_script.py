@@ -12,7 +12,7 @@ import pprint
 ################
 ### SETUP ######
 ################
-curr_season = '2019-20' # change to current season
+curr_season = '2020-21' # change to current season
 print('Season: {}'.format(curr_season))
 home = None # set true if team is at home
 pp = pprint.PrettyPrinter(indent=4)
@@ -61,9 +61,6 @@ game_box_score_df = game_box_score_df.join(temp_df.set_index('TEAM_ABBREVIATION'
 # clean and create separate team dfs
 spurs_team_box_scores, opp_team_box_scores = df_cleaner.clean_team_box_score(game_box_score_df)
 print('successfully cleaned team box scores')
-
-print(spurs_team_box_scores)
-print(opp_team_box_scores)
 
 ###############################
 ###### PLAYER BOX SCORES ######

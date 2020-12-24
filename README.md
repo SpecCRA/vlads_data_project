@@ -40,7 +40,7 @@ The scraper will work game by game and will only save the **most recent game**.
 
 # How to use scraper
 * Download the entire repository
-* Run `data_scraper/scraper.py` to gather, format, and output `JSON` files
+* Run `data_scraper/scraper_script.py` to gather, format, and output `JSON` files
 
 # Warnings
 * If a previous file exists, this script will overwrite the last file.

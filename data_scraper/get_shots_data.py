@@ -55,10 +55,14 @@ class get_shots_data():
         """
         data = pd.DataFrame() # start with an empty dataframe
         for player in player_list:
-            playerid = get_shots_data.get_playerid(player)
-            df = get_shots_data.get_shot_chart(playerid, teamid, gameid, season)
-            data = pd.concat([data, df])
-            print('Finished gathering data for {}'.format(player))
+            try:
+                playerid = get_shots_data.get_playerid(player)
+                df = get_shots_data.get_shot_chart(playerid, teamid, gameid, season)
+                print('Finished gathering data for {}'.format(player))
+                data = pd.concat([data, df])
+            except:
+                print('{} is not registered yet.'.format(player))
+            
         return data
 
     def get_league_avg(roster, season, teamid):
