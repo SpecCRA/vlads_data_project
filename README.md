@@ -46,6 +46,7 @@ The scraper will work game by game and will only save the **most recent game**.
 * If a previous file exists, this script will overwrite the last file.
 * The folder creation may not work on Windows because of the path naming notation.
 	* If this is a problem, create a `data/` folder outside the scraper scripts folder.
+* As of `Dec 23, 2020`, the shot chats are inaccurate because rookie players are not yet registered.
 
 ## In progress:
 
