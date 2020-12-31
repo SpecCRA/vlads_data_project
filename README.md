@@ -1,3 +1,9 @@
+# Update (12-31-20)
+* Included a substitutions scraper script
+* Rotations are outputting into Excel tables
+* Upon running script, rookies are still not yet registered. **SHOTS DATA ARE STILL NOT AUTOMATED.**
+* Added dates to file names to avoid overwriting files every time.
+
 # Update (12-20-20)
 * Reformatted percentage rounding in team box scores to integer values instead of a single decimal float
 * Data files are not up to date with last minor change, but everything else should be the same
@@ -29,14 +35,16 @@
 # Scraper outputs
 The scraper will work game by game and will only save the **most recent game**.
 
-1. Spurs' traditional player box score outputs - `players_spurs_box_score.json`
-2. Opponent traditional player box score outputs - `players_opp_box_scores.json`
-3. Spurs' traditional team box score outputs - `team_box_scores_spurs.json`
-4. Opponent traditional team box score outputs - `team_box_scores_opp.json`
-5. Misc team game statistics - `misc_box_stats.json`
-6. Spurs' shot data by zone - `shots_spurs.json`
-7. Opponent shot data by zone - `shots_opp.json`
-8. League average shot data up the most current point of the season - `shots_league_avg.json`
+1. Spurs' traditional player box score outputs - `[date]_players_spurs_box_score.json`
+2. Opponent traditional player box score outputs - `[date]_players_opp_box_scores.json`
+3. Spurs' traditional team box score outputs - `[date]_team_box_scores_spurs.json`
+4. Opponent traditional team box score outputs - `[date]_team_box_scores_opp.json`
+5. Misc team game statistics - `[date]_misc_box_stats.json`
+6. Spurs' shot data by zone - `[date]_shots_spurs.json`
+7. Opponent shot data by zone - `[date]_shots_opp.json`
+8. League average shot data up the most current point of the season - `[date]_shots_league_avg.json`
+9. Spurs game substitutions - `[date]_rotations_spurs.xlsx`
+10. Opponent game substitutions - `[date]_rotations_opp.xlsx`
 
 # How to use scraper
 * Download the entire repository

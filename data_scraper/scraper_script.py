@@ -4,6 +4,7 @@ from game_info import game_info
 from cleaning_functions import df_cleaner
 from get_shots_data import get_shots_data
 from box_scores import get_box_scores
+from gather_rotations import get_rotations
 import time
 import os
 import pandas as pd
@@ -12,6 +13,15 @@ import pprint
 ################
 ### SETUP ######
 ################
+file_path = '../data/'
+
+# check if a data/ folder exists
+if os.path.isdir(file_path) == False:
+	os.mkdir(file_path)
+	print('creating data/ folder and outputting files')
+else:
+	print('data folder exists')
+
 curr_season = '2020-21' # change to current season
 print('Season: {}'.format(curr_season))
 home = None # set true if team is at home
@@ -62,6 +72,17 @@ game_box_score_df = game_box_score_df.join(temp_df.set_index('TEAM_ABBREVIATION'
 spurs_team_box_scores, opp_team_box_scores = df_cleaner.clean_team_box_score(game_box_score_df)
 print('successfully cleaned team box scores')
 
+# Output team box scores
+# spurs team box score
+spurs_team_box_scores.to_json(path_or_buf = file_path + game_date + \
+											'_team_box_scores_spurs.json',
+								orient='records')
+
+# opp team box score
+opp_team_box_scores.to_json(path_or_buf = file_path + game_date + \
+											'_team_box_scores_opp.json',
+							orient='records')
+
 ###############################
 ###### PLAYER BOX SCORES ######
 ###############################
@@ -73,6 +94,17 @@ print('player box scores retrieved')
 spurs_players_box_scores, opp_player_box_scores = df_cleaner.clean_player_box_score(player_box_scores_df)
 print('successfully cleaned player box scores')
 
+# Output player box scores
+
+# spurs player box score
+spurs_players_box_scores.to_json(path_or_buf = file_path + game_date + \
+												'_players_spurs_box_score.json',
+									orient='records')
+
+# opp player box score
+opp_player_box_scores.to_json(path_or_buf = file_path + game_date + \
+											'_players_opp_box_score.json',
+								orient='records')
 
 #############################
 ### MISC TEAM DATA ##########
@@ -90,6 +122,10 @@ team_misc_df = game_box_score_df[['GAME_ID', 'TEAM_ABBREVIATION', 'AST', 'REB']]
 # clean & combine dataframes
 game_misc_df = df_cleaner.clean_misc_df(misc_stats_df, bench_pts_df, team_misc_df)
 print('successfully cleaned misc team box score')
+
+# Output misc box scores
+game_misc_df.to_json(path_or_buf = file_path + '_misc_box_stats.json', 
+						orient = 'records')
 
 ##############################
 ###### TEAM SHOTS DATA #######
@@ -119,54 +155,40 @@ clean_spurs_shots_df = df_cleaner.clean_team_shots_df(spurs_shots_df, league_avg
 clean_opp_shots_df = df_cleaner.clean_team_shots_df(opp_shots_df, league_avg_df)
 print('successfully cleaned team shot dataframes')
 
+# Output shots data
+# spurs team shooting data
+clean_spurs_shots_df.to_json(path_or_buf = file_path + game_date + \
+											'_shots_spurs.json',
+								orient='records')
+
+# opp team shooting data
+clean_opp_shots_df.to_json(path_or_buf = file_path + game_date + \
+											'_shots_opp.json',
+							orient='records')
+
+# league averages shooting data
+league_avg_df.to_json(path_or_buf = file_path + game_date + \
+										 '_shots_league_avg.json',
+						orient='records')
+
 
 ###################################
 ####### ROTATIONS DATA ############
 ###################################
-# gather rotations data for manual input
+# get play by play game data
+pbp_df = get_rotations.get_pbp(game_id)
+print('successfully gathered play by play data')
 
-#############################
-##### OUTPUTS ###############
-#############################
-file_path = '../data/'
+# process pbp data
+spurs_subs_df, opp_subs_df = get_rotations.process_subs(pbp_df, home)
+print('successfully processed subs data')
 
-# check if a data/ folder exists
-if os.path.isdir(file_path) == False:
-	os.mkdir(file_path)
-	print('creating data/ folder and outputting files')
-else:
-	print('outputting files')
+# Output rotations into excel files
+spurs_subs_df.to_excel(file_path + game_date + '_rotations_spurs.xlsx')
 
-# spurs team box score
-spurs_team_box_scores.to_json(path_or_buf = file_path + 'team_box_scores_spurs.json',
-								orient='records')
+opp_subs_df.to_excel(file_path + game_date + '_rotations_opp.xlsx')
 
-# opp team box score
-opp_team_box_scores.to_json(path_or_buf = file_path + 'team_box_scores_opp.json',
-							orient='records')
-
-# misc team box score
-game_misc_df.to_json(path_or_buf = file_path + 'misc_box_stats.json', 
-						orient = 'records')
-
-# spurs player box score
-spurs_players_box_scores.to_json(path_or_buf = file_path + 'players_spurs_box_score.json',
-									orient='records')
-
-# opp player box score
-opp_player_box_scores.to_json(path_or_buf = file_path + 'players_opp_box_score.json',
-								orient='records')
-
-# spurs team shooting data
-clean_spurs_shots_df.to_json(path_or_buf = file_path + 'shots_spurs.json',
-								orient='records')
-
-# opp team shooting data
-clean_opp_shots_df.to_json(path_or_buf = file_path + 'shots_opp.json',
-							orient='records')
-
-# league averages shooting data
-league_avg_df.to_json(path_or_buf = file_path + 'shots_league_avg.json',
-						orient='records')
-
-# rotations data
+###################################
+########### DONE! #################
+###################################
+print('Script finished.')
