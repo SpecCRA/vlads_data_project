@@ -74,12 +74,12 @@ print('successfully cleaned team box scores')
 
 # Output team box scores
 # spurs team box score
-spurs_team_box_scores.to_json(path_or_buf = file_path + game_date + \
+spurs_team_box_scores.to_json(path_or_buf = file_path + '1_' + \
 											'_team_box_scores_spurs.json',
 								orient='records')
 
 # opp team box score
-opp_team_box_scores.to_json(path_or_buf = file_path + game_date + \
+opp_team_box_scores.to_json(path_or_buf = file_path + '2_' + \
 											'_team_box_scores_opp.json',
 							orient='records')
 
@@ -97,12 +97,12 @@ print('successfully cleaned player box scores')
 # Output player box scores
 
 # spurs player box score
-spurs_players_box_scores.to_json(path_or_buf = file_path + game_date + \
+spurs_players_box_scores.to_json(path_or_buf = file_path + '3_' + \
 												'_players_spurs_box_score.json',
 									orient='records')
 
 # opp player box score
-opp_player_box_scores.to_json(path_or_buf = file_path + game_date + \
+opp_player_box_scores.to_json(path_or_buf = file_path + '4_' + \
 											'_players_opp_box_score.json',
 								orient='records')
 
@@ -124,7 +124,7 @@ game_misc_df = df_cleaner.clean_misc_df(misc_stats_df, bench_pts_df, team_misc_d
 print('successfully cleaned misc team box score')
 
 # Output misc box scores
-game_misc_df.to_json(path_or_buf = file_path + '_misc_box_stats.json', 
+game_misc_df.to_json(path_or_buf = file_path + '5_' + '_misc_box_stats.json', 
 						orient = 'records')
 
 ##############################
@@ -157,17 +157,17 @@ print('successfully cleaned team shot dataframes')
 
 # Output shots data
 # spurs team shooting data
-clean_spurs_shots_df.to_json(path_or_buf = file_path + game_date + \
+clean_spurs_shots_df.to_json(path_or_buf = file_path + '6_' + \
 											'_shots_spurs.json',
 								orient='records')
 
 # opp team shooting data
-clean_opp_shots_df.to_json(path_or_buf = file_path + game_date + \
+clean_opp_shots_df.to_json(path_or_buf = file_path + '7_' + \
 											'_shots_opp.json',
 							orient='records')
 
 # league averages shooting data
-league_avg_df.to_json(path_or_buf = file_path + game_date + \
+league_avg_df.to_json(path_or_buf = file_path + '8_' + \
 										 '_shots_league_avg.json',
 						orient='records')
 

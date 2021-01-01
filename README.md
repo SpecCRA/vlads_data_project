@@ -1,3 +1,6 @@
+# Update (1-1-21)
+* Updated file naming scheme to exclude date
+
 # Update (12-31-20)
 * Included a substitutions scraper script
 * Rotations are outputting into Excel tables
@@ -15,22 +18,6 @@
 
 # Update (12-16-20)
 * Automation script done for everything except rotations data
-
-# Update (12-10-20)
-* Began building Python automation script
-* Forgot to create 0-0 rows for parts that do not show up with league averages
-
-# Update (11-24-20)
-
-* Fixed shots formatting
-    * rearranged separate FGM and FGA columns into FGM-FGA
-    * reformatted shot percentages to XX%
-    * added difference from league average to each team shots file
-
-* Finished script to get required shot chart data
-    * team shots per zone
-    * shots made and attempted per zone
-    * shot percentage per zone formatted in XX.X%
 
 # Scraper outputs
 The scraper will work game by game and will only save the **most recent game**.
