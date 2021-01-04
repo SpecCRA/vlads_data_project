@@ -50,23 +50,17 @@ class game_info():
             home = True
         return game_id, home, game_date
 
-    def get_playerid(name):
+    def get_players_ids(gameid):
         """
-        Finds a player's unique ID by his name.
-        """
-        return find_players_by_full_name(name)[0]['id']
-
-    def get_players_list(gameid):
-        """
-        Returns a dictionary of player names to unique player IDs
+        Returns a list of Spurs' player IDs and Opponent player IDs
         """
         player_ids = dict()
 
         roster_data_df = BoxScorePlayerTrackV2(game_id=gameid).data_sets[0].get_data_frame()
-        for name in list(roster_data_df['PLAYER_NAME']):
-            player_ids[name] = self.get_playerid(name)
+        spurs_player_ids = list(roster_data_df[roster_data_df.TEAM_ABBREVIATION == 'SAS'].PLAYER_ID)
+        opp_player_ids = list(roster_data_df[roster_data_df.TEAM_ABBREVIATION != 'SAS'].PLAYER_ID)
 
-        return player_ids
+        return spurs_player_ids, opp_player_ids
 
     def get_rosters(gameid):
         """

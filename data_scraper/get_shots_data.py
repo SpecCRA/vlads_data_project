@@ -42,7 +42,7 @@ class get_shots_data():
         
         return shots_df.data_sets[0].get_data_frame()
 
-    def gather_team_df(gameid, player_list, teamid, season):
+    def gather_team_df(gameid, player_ids, player_list, teamid, season):
         """
         This function grabs an entire team's shot data separated by each shot.
         It loops through a team's roster and grabs individual team's shot data.
@@ -53,15 +53,28 @@ class get_shots_data():
         
         Output: concatted DataFrame of a team's game shot data
         """
+
+        assert len(player_ids) == len(player_list)
+
         data = pd.DataFrame() # start with an empty dataframe
-        for player in player_list:
+        # for player in player_list:
+        #     try:
+        #         playerid = get_shots_data.get_playerid(player)
+        #         df = get_shots_data.get_shot_chart(playerid, teamid, gameid, season)
+        #         print('Finished gathering data for {}'.format(player))
+        #         data = pd.concat([data, df])
+        #     except:
+        #         print('{} is not registered yet.'.format(player))
+
+        for i in range(len(player_ids)):
             try:
-                playerid = get_shots_data.get_playerid(player)
+                playerid = player_ids[i]
+                player_name = player_list[i]
                 df = get_shots_data.get_shot_chart(playerid, teamid, gameid, season)
-                print('Finished gathering data for {}'.format(player))
+                print('Finished gathering data for {}'.format(player_name))
                 data = pd.concat([data, df])
             except:
-                print('{} is not registered yet.'.format(player))
+                print('Error gathering shooting data for {}'.format(player_name))
             
         return data
 

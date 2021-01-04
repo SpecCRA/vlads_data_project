@@ -68,6 +68,10 @@ class get_rotations():
 	    return split_play[0][4:].strip() # remove white space & 'SUB: '
 
 	def process_subs(pbp_df, home):
+		"""
+		This function processes play by play dataframe to output substitutions patterns.
+		"""
+
 		# Get appropriate column for play by play data
 		spurs_col, opp_col = get_rotations.get_col(home)
 

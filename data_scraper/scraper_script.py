@@ -51,6 +51,10 @@ pp.pprint(spurs_roster)
 print('Opponent roster:')
 pp.pprint(opp_roster)
 
+# get player IDs for shots data
+spurs_players_ids, opp_player_ids = game_info.get_players_ids(game_id)
+print('Gathered player IDs')
+
 #################################
 ####### TEAM BOX SCORES #########
 #################################
@@ -75,12 +79,12 @@ print('successfully cleaned team box scores')
 # Output team box scores
 # spurs team box score
 spurs_team_box_scores.to_json(path_or_buf = file_path + '1_' + \
-											'_team_box_scores_spurs.json',
+											'_spurs_box_score.json',
 								orient='records')
 
 # opp team box score
-opp_team_box_scores.to_json(path_or_buf = file_path + '2_' + \
-											'_team_box_scores_opp.json',
+opp_team_box_scores.to_json(path_or_buf = file_path + '3_' + \
+											'_opponent_box_score.json',
 							orient='records')
 
 ###############################
@@ -97,13 +101,13 @@ print('successfully cleaned player box scores')
 # Output player box scores
 
 # spurs player box score
-spurs_players_box_scores.to_json(path_or_buf = file_path + '3_' + \
-												'_players_spurs_box_score.json',
+spurs_players_box_scores.to_json(path_or_buf = file_path + '2_' + \
+												'_spurs_totals.json',
 									orient='records')
 
 # opp player box score
 opp_player_box_scores.to_json(path_or_buf = file_path + '4_' + \
-											'_players_opp_box_score.json',
+											'_opponent_totals.json',
 								orient='records')
 
 #############################
@@ -124,18 +128,20 @@ game_misc_df = df_cleaner.clean_misc_df(misc_stats_df, bench_pts_df, team_misc_d
 print('successfully cleaned misc team box score')
 
 # Output misc box scores
-game_misc_df.to_json(path_or_buf = file_path + '5_' + '_misc_box_stats.json', 
+game_misc_df.to_json(path_or_buf = file_path + '5_' + '_misc.json', 
 						orient = 'records')
 
 ##############################
 ###### TEAM SHOTS DATA #######
 ##############################
 # grab spurs team shots data
-spurs_shots_df = get_shots_data.gather_team_df(game_id, spurs_roster, spurs_id, curr_season)
+spurs_shots_df = get_shots_data.gather_team_df(game_id, spurs_players_ids,\
+												 spurs_roster, spurs_id, curr_season)
 print('Spurs shot chart retrieved')
 
 # grab opp team shots data
-opp_shots_df = get_shots_data.gather_team_df(game_id, opp_roster, opp_id, curr_season)
+opp_shots_df = get_shots_data.gather_team_df(game_id, opp_player_ids, \
+												 opp_roster, opp_id, curr_season)
 print('opponent shot chart retrieved')
 
 # get league averages data
@@ -163,12 +169,12 @@ clean_spurs_shots_df.to_json(path_or_buf = file_path + '6_' + \
 
 # opp team shooting data
 clean_opp_shots_df.to_json(path_or_buf = file_path + '7_' + \
-											'_shots_opp.json',
+											'_shots_opponent.json',
 							orient='records')
 
 # league averages shooting data
-league_avg_df.to_json(path_or_buf = file_path + '8_' + \
-										 '_shots_league_avg.json',
+league_avg_df.to_json(path_or_buf = file_path + \
+										 '_shots_average.json',
 						orient='records')
 
 
@@ -184,9 +190,9 @@ spurs_subs_df, opp_subs_df = get_rotations.process_subs(pbp_df, home)
 print('successfully processed subs data')
 
 # Output rotations into excel files
-spurs_subs_df.to_excel(file_path + game_date + '_rotations_spurs.xlsx')
+spurs_subs_df.to_excel(file_path + 'rotations_spurs.xlsx')
 
-opp_subs_df.to_excel(file_path + game_date + '_rotations_opp.xlsx')
+opp_subs_df.to_excel(file_path + 'rotations_opp.xlsx')
 
 ###################################
 ########### DONE! #################
